@@ -1,0 +1,172 @@
+from pathlib import Path
+text = '''GOOGLE FORMS TEMPLATE – PEOPLE BEFORE POWER
+
+SECTION 1 – PARTICIPANT DETAILS
+1. Group
+   Type: Short answer
+   Required: Yes
+
+2. Segment
+   Type: Short answer
+   Required: Yes
+
+3. Name or alias
+   Type: Short answer
+   Required: No
+
+4. Contact
+   Type: Short answer
+   Required: No
+
+SECTION 2 – CORE QUESTIONS
+5. What do you think People Before Power is about?
+   Type: Paragraph
+   Required: Yes
+
+6. How clear is the message?
+   Type: Multiple choice
+   Required: Yes
+   Options: 1, 2, 3, 4, 5
+
+7. What parts are confusing or too abstract?
+   Type: Paragraph
+   Required: No
+
+8. How strong does the message feel?
+   Type: Multiple choice
+   Required: Yes
+   Options: 1, 2, 3, 4, 5
+
+9. How emotional or urgent does it feel?
+   Type: Multiple choice
+   Required: Yes
+   Options: 1, 2, 3, 4, 5
+
+10. Which part stands out most to you?
+    Type: Paragraph
+    Required: No
+
+11. How do you perceive the tone?
+    Type: Multiple choice
+    Required: Yes
+    Options: too soft, soft, balanced, harsh, too harsh
+
+12. How risky or controversial does this feel?
+    Type: Multiple choice
+    Required: Yes
+    Options: not risky, slightly risky, moderate, risky, very risky
+
+13. What concerns, misunderstandings, or red flags do you see?
+    Type: Paragraph
+    Required: No
+
+14. Would you share this with someone else?
+    Type: Multiple choice
+    Required: Yes
+    Options: definitely not, probably not, maybe, probably yes, definitely yes
+
+15. Would you sign up for updates?
+    Type: Multiple choice
+    Required: Yes
+    Options: definitely not, probably not, maybe, probably yes, definitely yes
+
+16. What would be the next step you would actually take?
+    Type: Paragraph
+    Required: No
+
+SECTION 3 – GROUP-SPECIFIC QUESTIONS
+17. Does this feel relevant to your age group?
+    Type: Multiple choice
+    Required: Yes
+    Options: 1, 2, 3, 4, 5
+
+18. Which format would work best for you?
+    Type: Paragraph
+    Required: No
+
+19. What would make this feel more credible or interesting?
+    Type: Paragraph
+    Required: No
+
+20. Does this feel connected to real working life?
+    Type: Multiple choice
+    Required: Yes
+    Options: 1, 2, 3, 4, 5
+
+21. Which topics matter most to you here?
+    Type: Paragraph
+    Required: No
+
+22. What would make this more practical and direct?
+    Type: Paragraph
+    Required: No
+
+23. Does this feel clear and strategic?
+    Type: Multiple choice
+    Required: Yes
+    Options: 1, 2, 3, 4, 5
+
+24. What tone would work better in your environment?
+    Type: Paragraph
+    Required: No
+
+25. What would make it feel more trustworthy or precise?
+    Type: Paragraph
+    Required: No
+
+26. Would you consider this usable in organised campaign work?
+    Type: Multiple choice
+    Required: Yes
+    Options: 1, 2, 3, 4, 5
+
+27. Where do you see legal, reputational, or funding concerns?
+    Type: Paragraph
+    Required: No
+
+28. Which format would be most useful for your work?
+    Type: Paragraph
+    Required: No
+
+29. Would this fit your content style and audience?
+    Type: Multiple choice
+    Required: Yes
+    Options: 1, 2, 3, 4, 5
+
+30. What would you keep or change?
+    Type: Paragraph
+    Required: No
+
+31. Would your audience see this as authentic?
+    Type: Multiple choice
+    Required: Yes
+    Options: 1, 2, 3, 4, 5
+
+32. Would this work in a set, mix, flyer, or playlist context?
+    Type: Multiple choice
+    Required: Yes
+    Options: 1, 2, 3, 4, 5
+
+33. Which lines feel strongest for performance?
+    Type: Paragraph
+    Required: No
+
+34. What would make it more usable in your scene?
+    Type: Paragraph
+    Required: No
+
+SECTION 4 – FINAL NOTES
+35. Any other comments or suggestions?
+    Type: Paragraph
+    Required: No
+
+36. Would you be open to a follow-up discussion?
+    Type: Multiple choice
+    Required: Yes
+    Options: Yes, No
+
+37. If yes, what is the best way to follow up?
+    Type: Paragraph
+    Required: No
+'''
+Path('output/google-forms-template.txt').write_text(text, encoding='utf-8')
+print('saved')
