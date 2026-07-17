@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>People Before Power - Feedback Form</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #0b0b0b;
+      --panel: #151515;
+      --panel-2: #1e1e1e;
+      --line: #2b2b2b;
+      --text: #f0ede6;
+      --muted: #bdb6aa;
+      --accent: #de4f3b;
+      --accent-2: #ef6652;
+      --max: 980px;
+      --font-ui: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+      --font-body: Georgia, "Times New Roman", serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, rgba(222,79,59,0.13), transparent 32%), linear-gradient(180deg, #090909 0%, #0b0b0b 100%);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .wrap {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 2rem auto 3rem;
+    }
+
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 1.2rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: var(--font-ui);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); text-transform: uppercase; }
+    h2 { font-size: clamp(1.2rem, 3vw, 1.5rem); margin-bottom: 0.9rem; text-transform: uppercase; }
+    h3 { font-size: 1rem; margin-bottom: 0.35rem; }
+
+    .kicker {
+      margin: 0 0 0.5rem;
+      color: var(--accent-2);
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .lede {
+      margin: 0.65rem 0 0;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    form {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    fieldset {
+      margin: 0;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    legend {
+      padding: 0 0.3rem;
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid #3a3a3a;
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 0.7rem 0.8rem;
+      font-family: var(--font-ui);
+      font-size: 0.96rem;
+    }
+
+    textarea { min-height: 120px; resize: vertical; }
+
+    .required {
+      color: var(--accent-2);
+      font-weight: 700;
+      margin-left: 0.25rem;
+    }
+
+    .hint {
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      min-height: 46px;
+      padding: 0.8rem 1.1rem;
+      border: 1px solid transparent;
+      background: var(--accent);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: var(--font-ui);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: transparent;
+      border-color: #4a4a4a;
+      color: var(--text);
+    }
+
+    button:hover { background: var(--accent-2); }
+    button.secondary:hover { background: #232323; }
+
+    .hidden { display: none; }
+
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      .wrap { margin-top: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <p class="kicker">Generated from test/google-forms-template.txt</p>
+      <h1>People Before Power - Feedback Form</h1>
+      <p class="lede">Use this form for testgroups. Group-specific questions are shown based on the selected participant group.</p>
+      <p class="hint" id="submitInfo">On submit, select your local project root folder to save results in test/username/submission.json.</p>
+    </section>
+
+    <form id="feedbackForm" action="#" method="post">
+      <fieldset>
+        <legend>Section 1 - Participant details</legend>
+        <div class="grid">
+          <div class="field">
+            <label for="group">Group <span class="required">*</span></label>
+            <select id="group" name="group" required>
+              <option value="">Select group</option>
+              <option value="students">Students and pupils</option>
+              <option value="workers-blue">Workers, blue collar</option>
+              <option value="workers-white">Workers, white collar</option>
+              <option value="ngos">NGOs and organisations</option>
+              <option value="influencers">Influencers</option>
+              <option value="musicians">Musicians and DJs</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="segment">Segment <span class="required">*</span></label>
+            <input id="segment" name="segment" type="text" required />
+          </div>
+
+          <div class="field">
+            <label for="alias">Name or alias</label>
+            <input id="alias" name="alias" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="contact">Contact</label>
+            <input id="contact" name="contact" type="text" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Section 2 - Core questions</legend>
+        <div class="grid">
+          <div class="field full">
+            <label for="q5">What do you think People Before Power is about? <span class="required">*</span></label>
+            <textarea id="q5" name="q5" required></textarea>
+          </div>
+
+          <div class="field">
+            <label for="q6">How clear is the message? <span class="required">*</span></label>
+            <select id="q6" name="q6" required>
+              <option value="">Select</option>
+              <option value="1">1 - not clear at all</option>
+              <option value="2">2 - unclear</option>
+              <option value="3">3 - partly clear</option>
+              <option value="4">4 - clear</option>
+              <option value="5">5 - very clear</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="q7">What parts are confusing or too abstract?</label>
+            <textarea id="q7" name="q7"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="q8">How strong does the message feel? <span class="required">*</span></label>
+            <select id="q8" name="q8" required>
+              <option value="">Select</option>
+              <option value="1">1 - very weak</option>
+              <option value="2">2 - weak</option>
+              <option value="3">3 - moderate</option>
+              <option value="4">4 - strong</option>
+              <option value="5">5 - very strong</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="q9">How emotional or urgent does it feel? <span class="required">*</span></label>
+            <select id="q9" name="q9" required>
+              <option value="">Select</option>
+              <option value="1">1 - not at all</option>
+              <option value="2">2 - slightly</option>
+              <option value="3">3 - moderate</option>
+              <option value="4">4 - strong</option>
+              <option value="5">5 - very strong</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="q10">Which part stands out most to you?</label>
+            <textarea id="q10" name="q10"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="q11">How do you perceive the tone? <span class="required">*</span></label>
+            <select id="q11" name="q11" required>
+              <option value="">Select</option>
+              <option value="1">1 - too soft</option>
+              <option value="2">2 - slightly soft</option>
+              <option value="3">3 - balanced</option>
+              <option value="4">4 - slightly harsh</option>
+              <option value="5">5 - too harsh</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="q12">How risky or controversial does this feel? <span class="required">*</span></label>
+            <select id="q12" name="q12" required>
+              <option value="">Select</option>
+              <option>not risky</option>
+              <option>slightly risky</option>
+              <option>moderate</option>
+              <option>risky</option>
+              <option>very risky</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="q13">What concerns, misunderstandings, or red flags do you see?</label>
+            <textarea id="q13" name="q13"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="q14">Would you share this with someone else? <span class="required">*</span></label>
+            <select id="q14" name="q14" required>
+              <option value="">Select</option>
+              <option>definitely not</option>
+              <option>probably not</option>
+              <option>maybe</option>
+              <option>probably yes</option>
+              <option>definitely yes</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="q15">Would you sign up for updates? <span class="required">*</span></label>
+            <select id="q15" name="q15" required>
+              <option value="">Select</option>
+              <option>definitely not</option>
+              <option>probably not</option>
+              <option>maybe</option>
+              <option>probably yes</option>
+              <option>definitely yes</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="q16">What would be the next step you would actually take?</label>
+            <textarea id="q16" name="q16"></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Section 3 - Group-specific questions</legend>
+        <p class="hint">These questions change based on the selected group.</p>
+
+        <div id="block-students" class="group-block hidden">
+          <div class="grid">
+            <div class="field">
+              <label for="q17">Does this feel relevant to your age group? <span class="required">*</span></label>
+              <select id="q17" name="q17">
+                <option value="">Select</option>
+                <option value="1">1 - not relevant</option>
+                <option value="2">2 - slightly relevant</option>
+                <option value="3">3 - moderately relevant</option>
+                <option value="4">4 - relevant</option>
+                <option value="5">5 - very relevant</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="q18">Which format would work best for you?</label>
+              <select id="q18" name="q18">
+                <option value="">Select</option>
+                <option>post</option>
+                <option>video</option>
+                <option>poster</option>
+                <option>playlist</option>
+                <option>live talk</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="q19">What would make this feel more credible or interesting?</label>
+              <textarea id="q19" name="q19"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div id="block-workers-blue" class="group-block hidden">
+          <div class="grid">
+            <div class="field">
+              <label for="q20">Does this feel connected to real working life? <span class="required">*</span></label>
+              <select id="q20" name="q20">
+                <option value="">Select</option>
+                <option value="1">1 - not connected</option>
+                <option value="2">2 - slightly connected</option>
+                <option value="3">3 - somewhat connected</option>
+                <option value="4">4 - connected</option>
+                <option value="5">5 - very connected</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="q21">Which topics matter most to you here?</label>
+              <textarea id="q21" name="q21"></textarea>
+            </div>
+            <div class="field full">
+              <label for="q22">What would make this more practical and direct?</label>
+              <textarea id="q22" name="q22"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div id="block-workers-white" class="group-block hidden">
+          <div class="grid">
+            <div class="field">
+              <label for="q23">Does this feel clear and strategic? <span class="required">*</span></label>
+              <select id="q23" name="q23">
+                <option value="">Select</option>
+                <option value="1">1 - not clear or strategic</option>
+                <option value="2">2 - slightly clear and strategic</option>
+                <option value="3">3 - partly clear and strategic</option>
+                <option value="4">4 - clear and strategic</option>
+                <option value="5">5 - very clear and strategic</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="q24">What tone would work better in your environment?</label>
+              <textarea id="q24" name="q24"></textarea>
+            </div>
+            <div class="field full">
+              <label for="q25">What would make it feel more trustworthy or precise?</label>
+              <textarea id="q25" name="q25"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div id="block-ngos" class="group-block hidden">
+          <div class="grid">
+            <div class="field">
+              <label for="q26">Would you consider this usable in organised campaign work? <span class="required">*</span></label>
+              <select id="q26" name="q26">
+                <option value="">Select</option>
+                <option value="1">1 - definitely not usable</option>
+                <option value="2">2 - probably not usable</option>
+                <option value="3">3 - maybe usable</option>
+                <option value="4">4 - probably usable</option>
+                <option value="5">5 - definitely usable</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="q27">Where do you see legal, reputational, or funding concerns?</label>
+              <textarea id="q27" name="q27"></textarea>
+            </div>
+            <div class="field full">
+              <label for="q28">Which format would be most useful for your work?</label>
+              <textarea id="q28" name="q28"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div id="block-influencers" class="group-block hidden">
+          <div class="grid">
+            <div class="field">
+              <label for="q29">Would this fit your content style and audience? <span class="required">*</span></label>
+              <select id="q29" name="q29">
+                <option value="">Select</option>
+                <option value="1">1 - not a fit</option>
+                <option value="2">2 - weak fit</option>
+                <option value="3">3 - partial fit</option>
+                <option value="4">4 - good fit</option>
+                <option value="5">5 - very strong fit</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="q30">What would you keep or change?</label>
+              <textarea id="q30" name="q30"></textarea>
+            </div>
+            <div class="field">
+              <label for="q31">Would your audience see this as authentic? <span class="required">*</span></label>
+              <select id="q31" name="q31">
+                <option value="">Select</option>
+                <option value="1">1 - definitely not</option>
+                <option value="2">2 - probably not</option>
+                <option value="3">3 - maybe</option>
+                <option value="4">4 - probably yes</option>
+                <option value="5">5 - definitely yes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="block-musicians" class="group-block hidden">
+          <div class="grid">
+            <div class="field">
+              <label for="q32">Would this work in a set, mix, flyer, or playlist context? <span class="required">*</span></label>
+              <select id="q32" name="q32">
+                <option value="">Select</option>
+                <option value="1">1 - definitely not</option>
+                <option value="2">2 - probably not</option>
+                <option value="3">3 - maybe</option>
+                <option value="4">4 - probably yes</option>
+                <option value="5">5 - definitely yes</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="q33">Which lines feel strongest for performance?</label>
+              <textarea id="q33" name="q33"></textarea>
+            </div>
+            <div class="field full">
+              <label for="q34">What would make it more usable in your scene?</label>
+              <textarea id="q34" name="q34"></textarea>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Section 4 - Final notes</legend>
+        <div class="grid">
+          <div class="field full">
+            <label for="q35">Any other comments or suggestions?</label>
+            <textarea id="q35" name="q35"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="q36">Would you be open to a follow-up discussion? <span class="required">*</span></label>
+            <select id="q36" name="q36" required>
+              <option value="">Select</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="q37">If yes, what is the best way to follow up?</label>
+            <textarea id="q37" name="q37"></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit">Submit form</button>
+        <button type="reset" class="secondary">Reset</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    const feedbackForm = document.getElementById("feedbackForm");
+    const groupSelect = document.getElementById("group");
+    const submitInfo = document.getElementById("submitInfo");
+    const blocks = {
+      "students": document.getElementById("block-students"),
+      "workers-blue": document.getElementById("block-workers-blue"),
+      "workers-white": document.getElementById("block-workers-white"),
+      "ngos": document.getElementById("block-ngos"),
+      "influencers": document.getElementById("block-influencers"),
+      "musicians": document.getElementById("block-musicians")
+    };
+
+    const requiredByGroup = {
+      "students": ["q17"],
+      "workers-blue": ["q20"],
+      "workers-white": ["q23"],
+      "ngos": ["q26"],
+      "influencers": ["q29", "q31"],
+      "musicians": ["q32"]
+    };
+
+    const groupFields = {
+      "students": ["q17", "q18", "q19"],
+      "workers-blue": ["q20", "q21", "q22"],
+      "workers-white": ["q23", "q24", "q25"],
+      "ngos": ["q26", "q27", "q28"],
+      "influencers": ["q29", "q30", "q31"],
+      "musicians": ["q32", "q33", "q34"]
+    };
+
+    function slugify(value) {
+      return String(value || "user")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 24) || "user";
+    }
+
+    function createSubmissionId(groupValue) {
+      const prefix = slugify(groupValue || "user");
+      const rand = Math.floor(Math.random() * 1000000).toString().padStart(6, "0");
+      return prefix + "-" + rand;
+    }
+
+    function collectSubmission(selectedGroup) {
+      const formData = new FormData(feedbackForm);
+      const activeFields = new Set(groupFields[selectedGroup] || []);
+      const allGroupFieldNames = Object.values(groupFields).flat();
+      const answers = {};
+
+      formData.forEach((value, key) => {
+        if (allGroupFieldNames.includes(key) && !activeFields.has(key)) {
+          return;
+        }
+        answers[key] = value;
+      });
+
+      return answers;
+    }
+
+    async function saveToSelectedTestFolder(payload, submissionId) {
+      if (!window.showDirectoryPicker) {
+        return false;
+      }
+
+      const selectedFolder = await window.showDirectoryPicker({ mode: "readwrite" });
+      const testFolder = await selectedFolder.getDirectoryHandle("test", { create: true });
+      const userFolder = await testFolder.getDirectoryHandle(submissionId, { create: true });
+      const fileHandle = await userFolder.getFileHandle("submission.json", { create: true });
+      const writer = await fileHandle.createWritable();
+      await writer.write(JSON.stringify(payload, null, 2));
+      await writer.close();
+      return true;
+    }
+
+    function downloadFallback(payload, submissionId) {
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = submissionId + "-submission.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function setGroupVisibility(group) {
+      Object.values(blocks).forEach((block) => block.classList.add("hidden"));
+
+      Object.keys(requiredByGroup).forEach((key) => {
+        requiredByGroup[key].forEach((id) => {
+          const field = document.getElementById(id);
+          if (field) field.required = false;
+        });
+      });
+
+      if (!group || !blocks[group]) return;
+
+      blocks[group].classList.remove("hidden");
+      requiredByGroup[group].forEach((id) => {
+        const field = document.getElementById(id);
+        if (field) field.required = true;
+      });
+    }
+
+    groupSelect.addEventListener("change", () => {
+      setGroupVisibility(groupSelect.value);
+    });
+
+    feedbackForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!feedbackForm.reportValidity()) {
+        return;
+      }
+
+      const selectedGroup = groupSelect.value;
+      const submissionId = createSubmissionId(selectedGroup);
+      const payload = {
+        submissionId,
+        timestamp: new Date().toISOString(),
+        selectedGroup,
+        answers: collectSubmission(selectedGroup)
+      };
+
+      try {
+        const saved = await saveToSelectedTestFolder(payload, submissionId);
+        if (saved) {
+          submitInfo.textContent = "Saved: test/" + submissionId + "/submission.json.";
+          feedbackForm.reset();
+          setGroupVisibility(groupSelect.value);
+          return;
+        }
+      } catch (error) {
+        submitInfo.textContent = "Folder save canceled or unavailable. Downloading JSON fallback.";
+      }
+
+      downloadFallback(payload, submissionId);
+    });
+
+    setGroupVisibility(groupSelect.value);
+  </script>
+</body>
+</html>
