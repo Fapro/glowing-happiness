@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warum - People Before Power</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #090909;
+      --surface: #111111;
+      --text: #f2efe8;
+      --muted: #bbb3a8;
+      --faint: #7f786f;
+      --line: #2a2a2a;
+      --red: #c53b2d;
+      --red-bright: #e45847;
+      --max: 1100px;
+      --measure: 720px;
+      --font-body: Georgia, "Times New Roman", serif;
+      --font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(197, 59, 45, 0.12), transparent 28%),
+        linear-gradient(180deg, #0a0a0a 0%, #090909 100%);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    a { color: var(--text); text-decoration: none; }
+    a:hover { color: var(--red-bright); }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -3rem;
+      background: var(--red);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      z-index: 1000;
+      font-family: var(--font-ui);
+      font-weight: 700;
+    }
+
+    .skip-link:focus { top: 1rem; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(9, 9, 9, 0.9);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner, .inner {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .nav-logo {
+      font-family: var(--font-ui);
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-left: auto;
+    }
+
+    .language-switch {
+      display: inline-flex;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      font-family: var(--font-ui);
+    }
+
+    .language-switch a,
+    .language-switch span {
+      padding: 0.45rem 0.7rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .language-switch .active {
+      background: var(--red);
+      color: var(--text);
+    }
+
+    main section {
+      padding: clamp(3.5rem, 6vw, 6rem) 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    #hero {
+      min-height: calc(100vh - 72px);
+      display: flex;
+      align-items: center;
+      border-bottom: 3px solid var(--red);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.85fr;
+      gap: 2rem;
+      align-items: end;
+    }
+
+    .eyebrow,
+    .kicker,
+    .card-label {
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--red-bright);
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-ui);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(3.3rem, 10vw, 7rem);
+      font-weight: 950;
+      margin: 0.75rem 0 1rem;
+      text-transform: uppercase;
+    }
+
+    .hero-strike {
+      display: block;
+      color: var(--red-bright);
+    }
+
+    .lede {
+      max-width: var(--measure);
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .lede strong,
+    .panel p strong { color: var(--red-bright); }
+
+    .hero-card,
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card { padding: 1.4rem; }
+
+    .hero-card ul,
+    .why-list,
+    .grid-2 {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hero-card li {
+      padding: 0.85rem 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .hero-card li:first-of-type { border-top: 0; }
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.7rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      font-weight: 850;
+      margin-bottom: 0.65rem;
+      text-transform: uppercase;
+    }
+
+    p { margin-bottom: 1.1rem; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .panel {
+      padding: 1.4rem;
+      min-height: 100%;
+    }
+
+    .panel p:last-child { margin-bottom: 0; }
+
+    .why-list li {
+      margin-bottom: 0.8rem;
+      color: var(--muted);
+      border-left: 3px solid var(--red);
+      padding-left: 0.9rem;
+      background: rgba(255,255,255,0.02);
+    }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--faint);
+      font-family: var(--font-ui);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner { flex-wrap: wrap; }
+      .nav-links { display: none; }
+      h1 { font-size: clamp(2.8rem, 18vw, 4.8rem); }
+      body { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  <nav aria-label="Hauptnavigation">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index-de.html">People Before Power</a>
+      <div class="nav-actions">
+        <ul class="nav-links">
+          <li><a href="index-de.html">Start</a></li>
+          <li><a href="activities-de.html">Aktionen</a></li>
+          <li><a href="manifesto-de.html">Manifest</a></li>
+          <li><a href="why-page-index-match-de.html">Warum</a></li>
+        </ul>
+        <div class="language-switch" aria-label="Sprachauswahl">
+          <a href="why-page-index-match.html" lang="en">EN</a>
+          <span class="active">DE</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section id="hero">
+      <div class="inner hero-grid">
+        <div>
+          <p class="eyebrow">People Before Power</p>
+          <h1>Warum?
+            <span class="hero-strike">Weil Schweigen die Macht schutzt.</span>
+          </h1>
+          <p class="lede">
+            Weil dort ein Vakuum entstanden ist, wo der Staat der Gesetzlosigkeit nachgegeben hat. Weil die 99% dieses Vakuum
+            fullen und eine Zukunft fur alle aufbauen mussen.
+          </p>
+          <p class="lede">Weil die Zukunft nicht von den Machtigen freiwillig abgegeben wird.</p>
+        </div>
+
+        <aside class="hero-card" aria-label="Kernbegrundung">
+          <p class="card-label">Unser Kern</p>
+          <ul>
+            <li><strong>Macht ohne Grenzen</strong> macht Recht zum Schutzschild fur Privilegierte.</li>
+            <li><strong>Angst ist politisch</strong>, wenn Institutionen Gewalt und Straflosigkeit normalisieren.</li>
+            <li><strong>Kollektive Verweigerung wirkt</strong>, wenn gewohnliche Menschen Ungerechtigkeit nicht weiter mittragen.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="grunde">
+      <div class="inner">
+        <p class="kicker">Grunde</p>
+        <h2>Warum das notwendig ist</h2>
+
+        <div class="grid-2">
+          <article class="panel">
+            <h3>Macht und Gewalt</h3>
+            <ul class="why-list">
+              <li>Weil wir organisierter Gewalt gegenuberstehen, nicht normaler Politik.</li>
+              <li>Weil Milliardare und techno-autoritäre Krafte jede Lucke nutzen, grenzuberschreitend agieren und straflos bleiben.</li>
+              <li>Weil Kontrollmechanismen versagt haben und staatliche Institutionen konzentrierte Macht nicht mehr einhegen.</li>
+              <li>Weil Reichtum, Grenzen, Polizei und Medien in Systeme der Kontrolle verwandelt wurden.</li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>Glaube und Ideologie</h3>
+            <ul class="why-list">
+              <li>Weil reaktionare Allianzen mit religiosem Extremismus offen Politik gestalten.</li>
+              <li>Weil die Nahe zum Faschismus offenes gemeinsames Terrain geworden ist.</li>
+              <li>Weil Wissenschaftsfeindlichkeit und Buchverbote genutzt werden, um Dissens und kritisches Denken zu bestrafen.</li>
+              <li>Weil Glaube niemals als Gesetz aufgezwungen werden darf.</li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>Korruption und Vertuschung</h3>
+            <ul class="why-list">
+              <li>Weil Menschen Wurde, Schutz und etwas Besseres verdienen.</li>
+              <li>Weil das Ausmass von Korruption schamlos und allgegenwartig ist.</li>
+              <li>Weil durch Macht geschutzter Missbrauch kein Unfall, sondern Struktur ist.</li>
+              <li>Weil grosse Vertuschungen zeigen, wie tief Straflosigkeit reicht.</li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>Staatliche Gewalt und Extremismus</h3>
+            <ul class="why-list">
+              <li>Weil Razzien, Morde und Politik der Angst nicht normal werden durfen.</li>
+              <li>Weil autoritare Technokraten menschliches Leben in Daten und Effizienz in Kontrolle verwandeln.</li>
+              <li>Weil alte Herrschaft in neuer Sprache und neuem Design wiederkehrt.</li>
+              <li>Weil transnationale extremistische Netzwerke uber Geld, Medien und Einfluss fortbestehen.</li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>Grenzen und Migration</h3>
+            <ul class="why-list">
+              <li>Weil Menschen, die an Grenzen sterben, ein Versagen der Menschlichkeit offenbaren.</li>
+              <li>Weil keine Grenze ein Todesurteil sein darf.</li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>Erde und Kollaps</h3>
+            <ul class="why-list">
+              <li>Weil die Ressourcen der Erde behandelt werden, als seien sie unendlich, wahrend Okosysteme kollabieren.</li>
+              <li>Weil Wasserknappheit zu Konflikt, Vertreibung und Ungleichheit wird.</li>
+              <li>Weil Verschmutzung und Abfall als Gift, Verlust und Aussterben zuruckkehren.</li>
+              <li>Weil Kriege Leben, Land, Wahrheit und Zukunft verschlingen.</li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>Menschlichkeit und Sinn</h3>
+            <ul class="why-list">
+              <li>Weil Menschlichkeit mehr ist als eine Kennzahl oder ein gemeinsamer Nenner.</li>
+              <li>Weil Leben unwahrscheinlich und kostbar ist.</li>
+            </ul>
+          </article>
+
+          <article class="panel">
+            <h3>Armut und Hunger</h3>
+            <ul class="why-list">
+              <li><strong>Weil Armut und Hunger die schlimmsten Dinge auf dieser Erde sind.</strong></li>
+              <li>Weil sie den grundlegendsten Verrat an der Menschlichkeit darstellen.</li>
+            </ul>
+          </article>
+        </div>
+
+        <article class="panel" style="margin-top: 1rem;">
+          <h3>Verantwortung und Handlung</h3>
+          <p>Weil vielleicht niemand sonst hinsieht. Wenn wir die Beobachtenden sind, beginnt Verantwortung hier.</p>
+          <p>Stelle Macht infrage. Schutze Leben. Verweigere Schweigen. Wandle Gewissen in Handlung um.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="inner">People Before Power - organisierte Verweigerung fur eine lebenswerte Welt</div>
+  </footer>
+</body>
+</html>

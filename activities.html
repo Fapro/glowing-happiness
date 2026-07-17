@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>People Before Power — Actions</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #090909;
+      --surface: #111111;
+      --surface-2: #171717;
+      --text: #f2efe8;
+      --muted: #bbb3a8;
+      --faint: #7f786f;
+      --line: rgba(255,255,255,0.08);
+      --red: #c53b2d;
+      --red-bright: #e45847;
+      --shadow: 0 16px 40px rgba(0,0,0,0.3);
+      --max: 1120px;
+      --font-body: Georgia, "Times New Roman", serif;
+      --font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(197, 59, 45, 0.12), transparent 28%),
+        linear-gradient(180deg, #0a0a0a 0%, #090909 100%);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.03rem;
+      line-height: 1.72;
+    }
+    a { color: var(--text); text-decoration: none; }
+    a:hover { color: var(--red-bright); }
+    nav {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px);
+      background: rgba(9,9,9,0.9); border-bottom: 1px solid var(--line);
+    }
+    .nav-inner, .inner { width: min(calc(100% - 2rem), var(--max)); margin: 0 auto; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 0; }
+    .nav-logo { font-family: var(--font-ui); font-weight: 900; letter-spacing: 0.09em; text-transform: uppercase; font-size: 0.88rem; }
+    .nav-links { list-style: none; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .nav-links a { font-family: var(--font-ui); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .nav-actions { display: flex; align-items: center; gap: 0.9rem; margin-left: auto; }
+    .language-switch { display: inline-flex; border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden; font-family: var(--font-ui); }
+    .language-switch a, .language-switch span { padding: 0.45rem 0.7rem; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .language-switch .active { background: var(--red); color: var(--text); }
+    .hero, section { padding: clamp(3.5rem, 7vw, 6.5rem) 0; border-bottom: 1px solid var(--line); }
+    .hero { border-bottom: 3px solid var(--red); }
+    .eyebrow, .kicker, .mini-label {
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.11em;
+      font-size: 0.76rem; font-weight: 800; color: var(--red-bright);
+    }
+    h1, h2, h3 { font-family: var(--font-ui); line-height: 1.04; letter-spacing: -0.03em; }
+    h1 { font-size: clamp(2.8rem, 7vw, 5.6rem); font-weight: 950; text-transform: uppercase; margin: 0.8rem 0 1rem; }
+    h2 { font-size: clamp(1.55rem, 4vw, 2.5rem); font-weight: 900; text-transform: uppercase; margin-bottom: 1rem; }
+    h3 { font-size: 1.02rem; font-weight: 850; text-transform: uppercase; margin-bottom: 0.55rem; }
+    p { margin-bottom: 1rem; }
+    .hero-grid, .two-col, .cards, .schedule-grid { display: grid; gap: 1rem; }
+    .hero-grid { grid-template-columns: 1.15fr 0.85fr; align-items: end; }
+    .two-col { grid-template-columns: 1fr 1fr; }
+    .cards, .schedule-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 1.5rem; }
+    .lede, .section-intro, .muted { color: var(--muted); max-width: 68ch; }
+    .panel, .event-card, .signup-panel, .notice {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .panel, .event-card, .signup-panel, .notice { padding: 1.35rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.6rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0.95rem 1.3rem;
+      border: 1px solid transparent; font-family: var(--font-ui); font-size: 0.82rem; font-weight: 900;
+      letter-spacing: 0.1em; text-transform: uppercase; transition: 180ms ease;
+    }
+    .btn-primary { background: var(--red); color: var(--text); }
+    .btn-primary:hover { background: var(--red-bright); color: var(--text); }
+    .btn-secondary { background: transparent; border-color: rgba(255,255,255,0.18); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--red-bright); color: var(--red-bright); }
+    .tag {
+      display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-ui); font-size: 0.74rem;
+      font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+      border: 1px solid var(--line); padding: 0.35rem 0.55rem; margin: 0 0 0.85rem 0;
+    }
+    .event-meta { display: grid; gap: 0.5rem; color: var(--muted); font-family: var(--font-ui); font-size: 0.9rem; margin-bottom: 0.9rem; }
+    .checklist { list-style: none; display: grid; gap: 0.8rem; margin-top: 1rem; }
+    .checklist li { display: flex; gap: 0.7rem; align-items: flex-start; color: var(--muted); }
+    .checklist input { margin-top: 0.24rem; accent-color: var(--red-bright); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+    .field, .field-full { display: grid; gap: 0.35rem; }
+    .field-full { grid-column: 1 / -1; }
+    label { font-family: var(--font-ui); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    input, select, textarea {
+      width: 100%; min-height: 48px; padding: 0.9rem 0.95rem; background: #0f0f0f; color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12); font-family: var(--font-ui); font-size: 0.98rem;
+    }
+    textarea { min-height: 132px; resize: vertical; }
+    .small { color: var(--faint); font-family: var(--font-ui); font-size: 0.86rem; }
+    footer { padding: 2rem 0 3rem; color: var(--faint); font-family: var(--font-ui); font-size: 0.84rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    @media (max-width: 920px) {
+      .hero-grid, .two-col, .cards, .schedule-grid, .form-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-inner { flex-wrap: wrap; }
+      .nav-links { display: none; }
+      .cta-row { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav aria-label="Primary">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html">People Before Power</a>
+      <div class="nav-actions">
+        <ul class="nav-links">
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#pledge">Pledge</a></li>
+          <li><a href="#roles">Roles</a></li>
+          <li><a href="#safety">Ground rules</a></li>
+        </ul>
+        <div class="language-switch" aria-label="Language selector">
+          <span class="active">EN</span>
+          <a href="activities-de.html" lang="de">DE</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="inner hero-grid">
+        <div>
+          <p class="eyebrow">Actions page</p>
+          <h1>Show up. Reach out. Hold the time.</h1>
+          <p class="lede">
+            This page gives supporters a visible calendar, a way to declare availability, and a pledge to be present
+            for lawful nearby outreach, assembly, and public witness at coordinated times. The site already frames
+            People Before Power around organised noncooperation, civil disobedience, and disciplined nonviolence, so
+            this page extends that structure into a practical participation layer. [file:4][file:5][file:3]
+          </p>
+          <div class="cta-row">
+            <a href="#schedule" class="btn btn-primary">See the schedule</a>
+            <a href="#pledge" class="btn btn-secondary">Make the pledge</a>
+          </div>
+        </div>
+        <aside class="notice" aria-label="Page purpose">
+          <p class="mini-label">Purpose</p>
+          <p class="muted">
+            The frontpage and manifesto position the movement as public, organised, and explicitly nonviolent, with
+            red lines against random targets, weapons, and secret-war logic. This page keeps that line by focusing on
+            visible participation, local outreach, and RSVP-style commitment rather than hidden operational planning. [file:4][file:5][file:3]
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="schedule">
+      <div class="inner">
+        <p class="kicker">Schedule</p>
+        <h2>Upcoming activity windows</h2>
+        <p class="section-intro">
+          The current site emphasizes a ladder from small first steps to larger coordinated action, so the schedule
+          below is structured in the same way: low-barrier outreach, public assemblies, training, and city presence.
+          It is a page for commitment and visibility, not covert logistics. [file:4][file:5]
+        </p>
+        <div class="schedule-grid">
+          <article class="event-card">
+            <span class="tag">Week 1</span>
+            <h3>Street conversation hour</h3>
+            <div class="event-meta">
+              <span>Format: Leafleting, canvassing, visible presence</span>
+              <span>Timing: Wednesday, 18:00–19:00</span>
+              <span>Radius: Near your district or town center</span>
+            </div>
+            <p class="muted">A first step for people willing to speak with neighbors, hand out material, and invite others into the campaign.</p>
+          </article>
+          <article class="event-card">
+            <span class="tag">Week 2</span>
+            <h3>Banner and witness gathering</h3>
+            <div class="event-meta">
+              <span>Format: Public square gathering</span>
+              <span>Timing: Saturday, 15:00–16:30</span>
+              <span>Radius: Central public meeting point</span>
+            </div>
+            <p class="muted">A visible, disciplined public presence for signs, conversation, photography, and outreach without confrontation.</p>
+          </article>
+          <article class="event-card">
+            <span class="tag">Week 3</span>
+            <h3>Training and role prep</h3>
+            <div class="event-meta">
+              <span>Format: Briefing circle</span>
+              <span>Timing: Tuesday, 19:30–20:30</span>
+              <span>Radius: Local indoor or online meeting</span>
+            </div>
+            <p class="muted">A prep session for de-escalation, legal awareness, documentation, first aid, and public messaging roles.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pledge">
+      <div class="inner two-col">
+        <div>
+          <p class="kicker">Pledge</p>
+          <h2>Commit to the coordinated time</h2>
+          <p class="section-intro">
+            A checkbox can signal willingness to be present at a shared time, but it should sit inside a broader
+            pledge that reflects the site’s stated line: public action, nonviolent discipline, and nearby outreach.
+            The manifesto repeatedly presents participation as open, organised disruption rather than private or
+            indiscriminate action, so the pledge below is written in that spirit. [file:5][file:3]
+          </p>
+          <ul class="checklist">
+            <li><input type="checkbox" id="c1" /><label for="c1">I will make time for at least one scheduled local action window.</label></li>
+            <li><input type="checkbox" id="c2" /><label for="c2">I will reach out to people in my proximity who may want to join a public, nonviolent action.</label></li>
+            <li><input type="checkbox" id="c3" /><label for="c3">I will respect de-escalation, safety, and lawful local requirements.</label></li>
+            <li><input type="checkbox" id="c4" /><label for="c4">I will not target random people or hide behind anonymous escalation.</label></li>
+          </ul>
+        </div>
+        <div class="signup-panel">
+          <p class="mini-label">Availability form</p>
+          <form>
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Name or alias</label>
+                <input id="name" type="text" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label for="city">City / area</label>
+                <input id="city" type="text" placeholder="Your area" />
+              </div>
+              <div class="field">
+                <label for="slot">Action window</label>
+                <select id="slot">
+                  <option>Street conversation hour</option>
+                  <option>Banner and witness gathering</option>
+                  <option>Training and role prep</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="reach">People you can reach out to</label>
+                <select id="reach">
+                  <option>Just me</option>
+                  <option>1–3 people</option>
+                  <option>4–10 people</option>
+                  <option>10+ people</option>
+                </select>
+              </div>
+              <div class="field-full">
+                <label for="notes">Notes</label>
+                <textarea id="notes" placeholder="How you want to help, what role you can take, or what kind of public action you can join nearby."></textarea>
+              </div>
+            </div>
+            <div class="cta-row">
+              <button type="button" class="btn btn-primary">Save my pledge</button>
+              <a href="index.html#join" class="btn btn-secondary">Back to join page</a>
+            </div>
+            <p class="small">Static demo form for now. Connect it to your form backend or email workflow next.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="roles">
+      <div class="inner">
+        <p class="kicker">Roles</p>
+        <h2>Different ways to hold the line</h2>
+        <div class="cards">
+          <article class="panel">
+            <p class="mini-label">Outreach</p>
+            <h3>Talk to people nearby</h3>
+            <p class="muted">Bring neighbors, friends, coworkers, or local contacts into visible public participation and scheduled meetings.</p>
+          </article>
+          <article class="panel">
+            <p class="mini-label">Support</p>
+            <h3>Keep the action grounded</h3>
+            <p class="muted">Take roles in de-escalation, legal observing, first aid, documentation, transport, or coordination of arrivals and departures.</p>
+          </article>
+          <article class="panel">
+            <p class="mini-label">Presence</p>
+            <h3>Make turnout visible</h3>
+            <p class="muted">Even one hour of reliable presence matters when building the movement’s first visible layer of discipline and trust.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="safety">
+      <div class="inner">
+        <p class="kicker">Ground rules</p>
+        <h2>Keep the page aligned with the campaign</h2>
+        <div class="notice">
+          <p class="muted">
+            The current homepage says the movement fights through organised disruption while staying nonviolent, and
+            the manifesto repeats a hard line against killing, random targets, weapons, humiliation, and secret-war
+            thinking. Any participation page should preserve that framework by centering public witness, outreach,
+            lawful assembly, role signup, and explicit de-escalation expectations. [file:4][file:5][file:3]
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="inner">People Before Power — actions calendar and local participation</div>
+  </footer>
+</body>
+</html>

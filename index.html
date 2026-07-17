@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>People Before Power</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #090909;
+      --surface: #111111;
+      --surface-2: #171717;
+      --text: #f2efe8;
+      --muted: #bbb3a8;
+      --faint: #7f786f;
+      --line: #2a2a2a;
+      --red: #c53b2d;
+      --red-bright: #e45847;
+      --red-dark: #8f291f;
+      --max: 1100px;
+      --measure: 720px;
+      --font-body: Georgia, "Times New Roman", serif;
+      --font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(197, 59, 45, 0.12), transparent 28%),
+        linear-gradient(180deg, #0a0a0a 0%, #090909 100%);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    a { color: var(--text); text-decoration: none; }
+    a:hover { color: var(--red-bright); }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -3rem;
+      background: var(--red);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      z-index: 1000;
+      font-family: var(--font-ui);
+      font-weight: 700;
+    }
+
+    .skip-link:focus { top: 1rem; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(9, 9, 9, 0.9);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner, .inner {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .nav-logo {
+      font-family: var(--font-ui);
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-left: auto;
+    }
+
+    .language-switch {
+      display: inline-flex;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      font-family: var(--font-ui);
+    }
+
+    .language-switch a,
+    .language-switch span {
+      padding: 0.45rem 0.7rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .language-switch .active {
+      background: var(--red);
+      color: var(--text);
+    }
+
+    main section {
+      padding: clamp(4rem, 7vw, 7rem) 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    #hero {
+      min-height: calc(100vh - 72px);
+      display: flex;
+      align-items: center;
+      border-bottom: 3px solid var(--red);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.85fr;
+      gap: 2.5rem;
+      align-items: end;
+    }
+
+    .eyebrow,
+    .kicker,
+    .card-label,
+    .mini-label {
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--red-bright);
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-ui);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(3.3rem, 10vw, 7rem);
+      font-weight: 950;
+      margin: 0.75rem 0 1rem;
+      text-transform: uppercase;
+    }
+
+    .hero-strike {
+      display: block;
+      color: var(--red-bright);
+    }
+
+    .hero-sub {
+      max-width: 16ch;
+      font-family: var(--font-ui);
+      font-size: clamp(1.15rem, 2vw, 1.8rem);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .lede,
+    .section-intro {
+      max-width: var(--measure);
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .lede strong,
+    .section-intro strong,
+    .pull strong,
+    .stat strong { color: var(--red-bright); }
+
+    .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.95rem 1.35rem;
+      border: 1px solid transparent;
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: 180ms ease;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover { background: var(--red-bright); color: var(--text); }
+
+    .btn-secondary {
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text);
+      background: transparent;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--red-bright);
+      color: var(--red-bright);
+    }
+
+    .strike-line {
+      max-width: 55ch;
+      font-family: var(--font-ui);
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .hero-card,
+    .panel,
+    .role-card,
+    .faq-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 1.4rem;
+    }
+
+    .hero-card ul,
+    .simple-list,
+    .red-lines,
+    .steps,
+    .roles,
+    .grid-3 {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hero-card li {
+      padding: 0.85rem 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .hero-card li:first-of-type { border-top: 0; }
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.7rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      font-weight: 850;
+      margin-bottom: 0.65rem;
+      text-transform: uppercase;
+    }
+
+    p { margin-bottom: 1.1rem; }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .panel {
+      padding: 1.4rem;
+      min-height: 100%;
+    }
+
+    .panel p:last-child,
+    .role-card p:last-child,
+    details p:last-child { margin-bottom: 0; }
+
+    .pull {
+      margin-top: 1.6rem;
+      max-width: 60ch;
+      font-size: 1.12rem;
+      color: var(--text);
+    }
+
+    .steps {
+      display: grid;
+      gap: 1rem;
+      margin-top: 2rem;
+      counter-reset: step;
+    }
+
+    .steps li {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      padding: 1.3rem;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .steps li::before {
+      content: counter(step, decimal-leading-zero);
+      font-family: var(--font-ui);
+      font-size: 1.7rem;
+      font-weight: 950;
+      color: var(--red-bright);
+      line-height: 1;
+    }
+
+    .step-title {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      font-weight: 850;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .step-body { color: var(--muted); margin: 0; }
+
+    .red-lines {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 2rem;
+    }
+
+    .red-lines li {
+      padding: 0.95rem 1rem 0.95rem 1.15rem;
+      border-left: 3px solid var(--red);
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+    }
+
+    .roles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .role-card {
+      padding: 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--red-bright), transparent);
+    }
+
+    .signup-panel {
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .signup-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.25rem;
+    }
+
+    .signup-form input[type="email"] {
+      flex: 1 1 260px;
+      min-height: 48px;
+      padding: 0.95rem 1rem;
+      background: #0f0f0f;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text);
+      font-size: 1rem;
+      font-family: var(--font-ui);
+    }
+
+    .signup-form input[type="email"]::placeholder { color: var(--faint); }
+
+    details {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--font-ui);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "+ "; color: var(--red-bright); font-weight: 950; }
+    details[open] summary::before { content: "− "; }
+    details p { margin-top: 0.8rem; color: var(--muted); }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--faint);
+      font-family: var(--font-ui);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .grid-3,
+      .roles {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner { flex-wrap: wrap; }
+      .nav-links { display: none; }
+      h1 { font-size: clamp(2.8rem, 18vw, 4.8rem); }
+      .hero-sub { max-width: 100%; }
+      .cta-row { flex-direction: column; }
+      .btn { width: 100%; }
+      body { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav aria-label="Primary">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html">People Before Power</a>
+      <div class="nav-actions">
+        <ul class="nav-links">
+          <li><a href="activities.html">Activities</a></li>
+          <li><a href="manifesto.html">Manifesto</a></li>
+          <li><a href="why-page-index-match.html">Why</a></li>
+          <li><a href="#diagnosis">Diagnosis</a></li>
+          <li><a href="#method">Method</a></li>
+          <li><a href="#roadmap">Escalation</a></li>
+          <li><a href="#line">Red lines</a></li>
+          <li><a href="#join">Join</a></li>
+        </ul>
+        <div class="language-switch" aria-label="Language selector">
+          <span class="active">EN</span>
+          <a href="index-de.html" lang="de">DE</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section id="hero">
+      <div class="inner hero-grid">
+        <div>
+          <p class="eyebrow">For the 99% who are done begging</p>
+          <h1>
+            They rule because we obey.
+            <span class="hero-strike">We stop, they crack.</span>
+          </h1>
+          <p class="hero-sub">Not a petition. Not a lifestyle. A movement for organised noncooperation.</p>
+          <p class="lede">
+            A tiny elite treats people, law, and the living world as disposable. People Before Power turns fear,
+            anger, and isolation into <strong>disciplined public refusal</strong> — blockades, strikes, boycotts,
+            walkouts, and civil disobedience that raises the cost of elite impunity.
+          </p>
+          <div class="cta-row">
+            <a href="#join" class="btn btn-primary">Join the front line</a>
+            <a href="manifesto.html" class="btn btn-secondary">Read the manifesto</a>
+          </div>
+          <p class="strike-line">No worship of wealth. No obedience to impunity. No faith in a system built to protect the few.</p>
+        </div>
+
+        <aside class="hero-card" aria-label="Core line">
+          <p class="card-label">Our line</p>
+          <ul>
+            <li><strong>They are violent.</strong> Climate collapse, policing, extraction, prisons, war, and elite abuse are not side effects. They are how rule is maintained.</li>
+            <li><strong>We keep the machine alive.</strong> The 1% only look untouchable because the 99% keep the streets, wires, hospitals, logistics, and institutions running.</li>
+            <li><strong>We fight without becoming them.</strong> Public, strategic, disruptive nonviolence widens participation while denying power the spectacle it wants.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="diagnosis">
+      <div class="inner">
+        <p class="kicker">Diagnosis</p>
+        <h2>This is not normal politics</h2>
+        <p class="section-intro">
+          We are told to be patient, polite, and realistic. Meanwhile a tiny ruling minority concentrates wealth,
+          builds surveillance, bankrolls hard-right projects, protects abusers, and treats whole populations as
+          disposable. The point of this campaign is to tear away the language of normality and name the system for
+          what it is: organised violence with good branding.
+        </p>
+
+        <div class="grid-3">
+          <article class="panel">
+            <p class="mini-label">They are violent</p>
+            <h3>Power is enforced</h3>
+            <p>Not just with police and prisons, but with debt, exhaustion, precarity, ecological collapse, and the threat that resistance will cost you everything.</p>
+          </article>
+          <article class="panel">
+            <p class="mini-label">We are trained</p>
+            <h3>Obedience is manufactured</h3>
+            <p>People are not passive by nature. We are pressured into isolation, survival reflexes, and the lie that nothing changes unless the powerful allow it.</p>
+          </article>
+          <article class="panel">
+            <p class="mini-label">We hold the real leverage</p>
+            <h3>The system runs through us</h3>
+            <p>Every city, supply chain, service, office, terminal, school, and network depends on ordinary people continuing to cooperate with an unjust order.</p>
+          </article>
+        </div>
+
+        <p class="pull">
+          <strong>They hold guns and paper wealth. We hold bodies, streets, wires, switches, care, labour, and time.</strong>
+          When we withdraw cooperation together, their inevitability starts to look like theatre.
+        </p>
+      </div>
+    </section>
+
+    <section id="method">
+      <div class="inner">
+        <p class="kicker">Method</p>
+        <h2>Turn obedience into disruption</h2>
+        <p class="section-intro">
+          We are not here to ask the 1% to behave. We are here to make business-as-usual harder to sustain. That
+          means public organisation, clear targets, visible campaigns, and tactics that ordinary people can actually
+          carry out: coordinated refusal, strategic slowdown, labour power, boycotts, blockades, occupations, and
+          civil disobedience.
+        </p>
+
+        <div class="grid-3">
+          <article class="panel">
+            <p class="mini-label">Targeted</p>
+            <h3>Hit legitimacy</h3>
+            <p>Expose the gap between how elite power presents itself and what it actually protects — extraction, impunity, and disposable lives.</p>
+          </article>
+          <article class="panel">
+            <p class="mini-label">Collective</p>
+            <h3>Raise the social cost</h3>
+            <p>Move from private outrage to organised refusal that jams routines, interrupts flows, and shows people they are not alone.</p>
+          </article>
+          <article class="panel">
+            <p class="mini-label">Disciplined</p>
+            <h3>Stay nonviolent</h3>
+            <p>Not because the system deserves courtesy, but because disciplined mass nonviolence scales faster, includes more people, and protects communities from the logic of war.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="inner">
+        <p class="kicker">Escalation</p>
+        <h2>From first step to shutdown</h2>
+        <ol class="steps">
+          <li>
+            <div>
+              <p class="step-title">Break the silence</p>
+              <p class="step-body">Sign. Share. Show up once. Say openly what the system is and stop acting like this is somebody else’s fight.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <p class="step-title">Win a visible fight</p>
+              <p class="step-body">Join a local campaign with a sharp target. Build confidence by turning pressure into something public, concrete, and contagious.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <p class="step-title">Scale disruption</p>
+              <p class="step-body">Move toward coordinated blockades, strikes, slow-downs, and refusals that make it impossible to pretend consent is still intact.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="line">
+      <div class="inner">
+        <p class="kicker">Red lines</p>
+        <h2>Hard line. No drift.</h2>
+        <p class="section-intro">
+          The system will call any serious resistance extreme. That is why our own lines stay clear. We are trying to
+          build power for human beings, not copy the contempt of the people we are fighting.
+        </p>
+        <ul class="red-lines">
+          <li>No random targets. We confront systems, institutions, and concentrations of power — not scapegoats or civilians.</li>
+          <li>No macho violence. No weapons, no terror, no fantasies of purification through blood.</li>
+          <li>No secret war. Our strength is organised, public disruption that ordinary people can join and defend.</li>
+          <li>No hero cults. The point is not new rulers. The point is collective leverage, dignity, and a livable world.</li>
+        </ul>
+      </div>
+    </section>
+
+    
+<section id="privacy" class="main-section">
+  <div class="inner section-shell">
+    <aside class="section-meta">
+      <div class="toc">
+        <p class="mini-label">Safety</p>
+      </div>
+    </aside>
+    <article class="section-card">
+      <p class="kicker">Anonymity and safety</p>
+      <h2>Protect identity by default</h2>
+      <p class="section-intro">For anonymity and safety, avoid mobile phones during sensitive coordination and use a character name or alias even in face-to-face meetings. Keep real names, contact details, and other identifying information private unless absolutely necessary, and use offline, low-tech methods for coordination whenever possible.</p>
+    </article>
+  </div>
+</section>
+<section id="join">
+      <div class="inner">
+        <p class="kicker">Join</p>
+        <h2>Pick a side. Pick a role.</h2>
+        <p class="section-intro">
+          You are already inside the system. The question is whether you keep oiling it or help jam it. People Before
+          Power needs visible supporters, organisers, and protective infrastructure around actions.
+        </p>
+
+        <div class="roles">
+          <article class="role-card">
+            <p class="mini-label">Signalers</p>
+            <h3>Break isolation</h3>
+            <p>Add your name, amplify campaigns, bring in your network, and make it easier for other people to stop hiding.</p>
+          </article>
+          <article class="role-card">
+            <p class="mini-label">Organisers</p>
+            <h3>Build local capacity</h3>
+            <p>Form city groups, map choke points, plan actions, coordinate logistics, and turn anger into structure.</p>
+          </article>
+          <article class="role-card">
+            <p class="mini-label">Shields</p>
+            <h3>Protect the line</h3>
+            <p>Lawyers, medics, de-escalators, documenters, translators, drivers, cooks, and techs who keep people safer and stronger.</p>
+          </article>
+        </div>
+
+        <div class="signup-panel">
+          <p class="mini-label">First step</p>
+          <p>Join the list. Get campaign updates. Find your city. Start moving with other people instead of waiting alone.</p>
+          <form class="signup-form" action="#" method="post">
+            <input type="email" name="email" placeholder="Enter your email" aria-label="Email address" required />
+            <button class="btn btn-primary" type="submit">Join the front line</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="inner faq-card">
+        <div style="padding: 1.5rem;">
+          <p class="kicker">Risk</p>
+          <h2>Ask the hard questions</h2>
+          <details>
+            <summary>Is this legal?</summary>
+            <p>Some actions are legal. Some are civil disobedience. The point is not to hide that fact, but to prepare for it together and make repression visible when it comes.</p>
+          </details>
+          <details>
+            <summary>Will I be safe?</summary>
+            <p>No honest movement can promise safety. What we can promise is preparation, mutual support, de-escalation, legal awareness, and a refusal to let people face consequences alone.</p>
+          </details>
+          <details>
+            <summary>Why not answer violence with violence?</summary>
+            <p>Because copying elite violence shrinks the movement, isolates communities, and hands power the spectacle it wants. Disciplined nonviolence is not softness. It is strategy.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="inner">People Before Power — organised refusal for a livable world</div>
+  </footer>
+</body>
+</html>
