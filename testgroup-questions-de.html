@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testgruppen Fragen | People Before Power</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #090909;
+      --surface: #111111;
+      --surface-2: #171717;
+      --text: #f2efe8;
+      --muted: #bbb3a8;
+      --faint: #7f786f;
+      --line: #2a2a2a;
+      --red: #c53b2d;
+      --red-bright: #e45847;
+      --max: 1100px;
+      --measure: 760px;
+      --font-body: Georgia, "Times New Roman", serif;
+      --font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(197, 59, 45, 0.12), transparent 28%),
+        linear-gradient(180deg, #0a0a0a 0%, #090909 100%);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    a { color: var(--text); text-decoration: none; }
+    a:hover { color: var(--red-bright); }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(9, 9, 9, 0.9);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .nav-logo {
+      font-family: var(--font-ui);
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.1rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .language-switch {
+      display: inline-flex;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      font-family: var(--font-ui);
+    }
+
+    .language-switch a,
+    .language-switch span {
+      padding: 0.45rem 0.7rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .language-switch .active {
+      background: var(--red);
+      color: var(--text);
+    }
+
+    main { padding: clamp(2rem, 4vw, 4rem) 0 3rem; }
+
+    .hero {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+      border: 1px solid rgba(255,255,255,0.09);
+      background: var(--surface);
+      padding: clamp(1.2rem, 2.4vw, 2rem);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--red-bright);
+      margin-bottom: 0.65rem;
+    }
+
+    h1 {
+      font-family: var(--font-ui);
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+
+    .lede { max-width: var(--measure); color: var(--muted); margin-bottom: 1.25rem; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.8rem;
+      align-items: end;
+      margin-top: 1rem;
+    }
+
+    label {
+      display: grid;
+      gap: 0.35rem;
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    select, button {
+      min-height: 48px;
+      padding: 0.9rem 0.95rem;
+      background: #0f0f0f;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      width: auto;
+      min-width: 180px;
+      background: var(--red);
+      border-color: transparent;
+    }
+
+    button:hover { background: var(--red-bright); }
+
+    .panel {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 1.25rem auto 0;
+      border: 1px solid rgba(255,255,255,0.09);
+      background: var(--surface-2);
+      padding: clamp(1.1rem, 2.2vw, 1.6rem);
+    }
+
+    h2 {
+      font-family: var(--font-ui);
+      font-size: clamp(1.2rem, 3vw, 1.7rem);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .small {
+      color: var(--faint);
+      font-family: var(--font-ui);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+
+    .question-list {
+      list-style: none;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .question-item {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0f0f0f;
+      padding: 0.75rem 0.8rem;
+    }
+
+    .question-item strong {
+      display: block;
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.74rem;
+      color: var(--red-bright);
+      margin-bottom: 0.3rem;
+    }
+
+    footer {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 2rem auto 0;
+      color: var(--faint);
+      font-family: var(--font-ui);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 740px) {
+      .form-grid { grid-template-columns: 1fr; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav aria-label="Hauptnavigation">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index-de.html">People Before Power</a>
+      <div class="nav-actions">
+        <ul class="nav-links">
+          <li><a href="index-de.html">Start</a></li>
+          <li><a href="activities-de.html">Aktionen</a></li>
+          <li><a href="manifesto-de.html">Manifest</a></li>
+        </ul>
+        <div class="language-switch" aria-label="Sprachauswahl">
+          <a href="testgroup-questions.html" lang="en">EN</a>
+          <span class="active">DE</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Feedback Hilfe</p>
+      <h1>Testgruppen Fragen</h1>
+      <p class="lede">
+        Waehle eine Testgruppe, um sofort den passenden Fragenblock aus
+        feedback-form-template.md zu laden. Die Seite zeigt immer die Kernfragen
+        plus den gruppenspezifischen Teil, damit Moderation schnell damit arbeiten kann.
+      </p>
+      <div class="form-grid">
+        <label for="groupSelect">
+          Testgruppe auswaehlen
+          <select id="groupSelect" name="group">
+            <option value="Schuelerinnen und Schueler">Schuelerinnen und Schueler</option>
+            <option value="Arbeitende, Blue Collar">Arbeitende, Blue Collar</option>
+            <option value="Arbeitende, White Collar">Arbeitende, White Collar</option>
+            <option value="NGOs und Organisationen">NGOs und Organisationen</option>
+            <option value="Influencer">Influencer</option>
+            <option value="Musikerinnen, Musiker und DJs">Musikerinnen, Musiker und DJs</option>
+          </select>
+        </label>
+        <button type="button" id="copyBtn">Fragen kopieren</button>
+      </div>
+    </section>
+
+    <section class="panel" aria-live="polite">
+      <h2 id="setTitle">Fragenset: Schuelerinnen und Schueler</h2>
+      <p class="small">Kernfragen + ausgewaehlter Testgruppenblock</p>
+      <ul class="question-list" id="questionList"></ul>
+    </section>
+  </main>
+
+  <footer>
+    Quelle: feedback-form-template.md
+  </footer>
+
+  <script>
+    const coreQuestions = [
+      "Worum geht es bei People Before Power aus deiner Sicht?",
+      "Wie klar ist die Botschaft? (1-5)",
+      "Welche Teile sind verwirrend oder zu abstrakt?",
+      "Wie stark wirkt die Botschaft? (1-5)",
+      "Wie emotional oder dringend wirkt sie? (1-5)",
+      "Welcher Teil bleibt am meisten haengen?",
+      "Wie nimmst du den Ton wahr? (1-5)",
+      "Wie riskant oder kontrovers wirkt das? (1-5)",
+      "Welche Bedenken, Missverstaendnisse oder Red Flags siehst du?",
+      "Wuerdest du das mit anderen teilen? (1-5)",
+      "Wuerdest du Updates abonnieren? (1-5)",
+      "Welchen naechsten konkreten Schritt wuerdest du gehen?",
+      "Weitere Kommentare oder Vorschlaege?",
+      "Waerst du offen fuer ein Follow-up Gespraech?",
+      "Falls ja: Was ist der beste Weg fuer die Nachverfolgung?"
+    ];
+
+    const groupQuestions = {
+      "Schuelerinnen und Schueler": [
+        "Fuehlt sich das fuer deine Altersgruppe relevant an?",
+        "Welches Format passt am besten: Post, Video, Poster, Playlist oder Live Talk?",
+        "Was wuerde das glaubwuerdiger oder interessanter machen?"
+      ],
+      "Arbeitende, Blue Collar": [
+        "Hat das einen klaren Bezug zum realen Arbeitsalltag?",
+        "Welche Themen sind hier fuer dich am wichtigsten?",
+        "Was wuerde das praktischer und direkter machen?"
+      ],
+      "Arbeitende, White Collar": [
+        "Ist das klar und strategisch genug formuliert?",
+        "Welcher Ton wuerde in deinem Umfeld besser funktionieren?",
+        "Was wuerde es vertrauenswuerdiger oder praeziser machen?"
+      ],
+      "NGOs und Organisationen": [
+        "Wuerdet ihr das in organisierter Kampagnenarbeit einsetzen?",
+        "Wo seht ihr rechtliche, reputative oder finanzielle Risiken?",
+        "Welches Format waere fuer eure Arbeit am hilfreichsten?"
+      ],
+      "Influencer": [
+        "Passt das zu deinem Content Stil und deiner Zielgruppe?",
+        "Was wuerdest du beibehalten oder aendern?",
+        "Wuerde dein Publikum das als authentisch wahrnehmen?"
+      ],
+      "Musikerinnen, Musiker und DJs": [
+        "Wuerde das im Kontext von Set, Mix, Flyer oder Playlist funktionieren?",
+        "Welche Zeilen sind fuer Performance am staerksten?",
+        "Was wuerde es in deiner Szene besser nutzbar machen?"
+      ]
+    };
+
+    const groupSelect = document.getElementById("groupSelect");
+    const setTitle = document.getElementById("setTitle");
+    const questionList = document.getElementById("questionList");
+    const copyBtn = document.getElementById("copyBtn");
+
+    function renderQuestions(selectedGroup) {
+      setTitle.textContent = "Fragenset: " + selectedGroup;
+      questionList.innerHTML = "";
+
+      coreQuestions.forEach((question, index) => {
+        const item = document.createElement("li");
+        item.className = "question-item";
+        item.innerHTML = "<strong>Kern " + (index + 1) + "</strong>" + question;
+        questionList.appendChild(item);
+      });
+
+      groupQuestions[selectedGroup].forEach((question, index) => {
+        const item = document.createElement("li");
+        item.className = "question-item";
+        item.innerHTML = "<strong>Gruppe " + (index + 1) + "</strong>" + question;
+        questionList.appendChild(item);
+      });
+    }
+
+    groupSelect.addEventListener("change", (event) => {
+      renderQuestions(event.target.value);
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      const selectedGroup = groupSelect.value;
+      const lines = [
+        "Testgruppe: " + selectedGroup,
+        "",
+        "Kernfragen:"
+      ];
+
+      coreQuestions.forEach((question, index) => {
+        lines.push((index + 1) + ". " + question);
+      });
+
+      lines.push("", "Gruppenspezifische Fragen:");
+
+      groupQuestions[selectedGroup].forEach((question, index) => {
+        lines.push((index + 1) + ". " + question);
+      });
+
+      try {
+        await navigator.clipboard.writeText(lines.join("\n"));
+        copyBtn.textContent = "Kopiert";
+        setTimeout(() => {
+          copyBtn.textContent = "Fragen kopieren";
+        }, 1200);
+      } catch {
+        copyBtn.textContent = "Kopieren fehlgeschlagen";
+        setTimeout(() => {
+          copyBtn.textContent = "Fragen kopieren";
+        }, 1200);
+      }
+    });
+
+    renderQuestions(groupSelect.value);
+  </script>
+</body>
+</html>
