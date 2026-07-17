@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testgroup Questions | People Before Power</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #090909;
+      --surface: #111111;
+      --surface-2: #171717;
+      --text: #f2efe8;
+      --muted: #bbb3a8;
+      --faint: #7f786f;
+      --line: #2a2a2a;
+      --red: #c53b2d;
+      --red-bright: #e45847;
+      --max: 1100px;
+      --measure: 760px;
+      --font-body: Georgia, "Times New Roman", serif;
+      --font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(197, 59, 45, 0.12), transparent 28%),
+        linear-gradient(180deg, #0a0a0a 0%, #090909 100%);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    a { color: var(--text); text-decoration: none; }
+    a:hover { color: var(--red-bright); }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(9, 9, 9, 0.9);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner, .inner {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .nav-logo {
+      font-family: var(--font-ui);
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.1rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    main { padding: clamp(2rem, 4vw, 4rem) 0 3rem; }
+
+    .hero {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+      border: 1px solid rgba(255,255,255,0.09);
+      background: var(--surface);
+      padding: clamp(1.2rem, 2.4vw, 2rem);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--red-bright);
+      margin-bottom: 0.65rem;
+    }
+
+    h1 {
+      font-family: var(--font-ui);
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+
+    .lede { max-width: var(--measure); color: var(--muted); margin-bottom: 1.25rem; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.8rem;
+      align-items: end;
+      margin-top: 1rem;
+    }
+
+    label {
+      display: grid;
+      gap: 0.35rem;
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    select, button {
+      min-height: 48px;
+      padding: 0.9rem 0.95rem;
+      background: #0f0f0f;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      width: auto;
+      min-width: 180px;
+      background: var(--red);
+      border-color: transparent;
+    }
+
+    button:hover { background: var(--red-bright); }
+
+    .panel {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 1.25rem auto 0;
+      border: 1px solid rgba(255,255,255,0.09);
+      background: var(--surface-2);
+      padding: clamp(1.1rem, 2.2vw, 1.6rem);
+    }
+
+    h2 {
+      font-family: var(--font-ui);
+      font-size: clamp(1.2rem, 3vw, 1.7rem);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .small {
+      color: var(--faint);
+      font-family: var(--font-ui);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+
+    .question-list {
+      list-style: none;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .question-item {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0f0f0f;
+      padding: 0.75rem 0.8rem;
+    }
+
+    .question-item strong {
+      display: block;
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.74rem;
+      color: var(--red-bright);
+      margin-bottom: 0.3rem;
+    }
+
+    footer {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 2rem auto 0;
+      color: var(--faint);
+      font-family: var(--font-ui);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 740px) {
+      .form-grid { grid-template-columns: 1fr; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav aria-label="Primary">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html">People Before Power</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="manifesto.html">Manifesto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Feedback helper</p>
+      <h1>Testgroup Questions</h1>
+      <p class="lede">
+        Select a test group to instantly load the matching question set from
+        feedback-form-template.md. The page always includes core questions and then adds the
+        group-specific block, so moderators can use it quickly during sessions.
+      </p>
+      <div class="form-grid">
+        <label for="groupSelect">
+          Choose test group
+          <select id="groupSelect" name="group">
+            <option value="Students and pupils">Students and pupils</option>
+            <option value="Workers, blue collar">Workers, blue collar</option>
+            <option value="Workers, white collar">Workers, white collar</option>
+            <option value="NGOs and organisations">NGOs and organisations</option>
+            <option value="Influencers">Influencers</option>
+            <option value="Musicians and DJs">Musicians and DJs</option>
+          </select>
+        </label>
+        <button type="button" id="copyBtn">Copy Questions</button>
+      </div>
+    </section>
+
+    <section class="panel" aria-live="polite">
+      <h2 id="setTitle">Question set: Students and pupils</h2>
+      <p class="small">Core questions + selected testgroup block</p>
+      <ul class="question-list" id="questionList"></ul>
+    </section>
+  </main>
+
+  <footer>
+    Source: feedback-form-template.md
+  </footer>
+
+  <script>
+    const coreQuestions = [
+      "What do you think People Before Power is about?",
+      "How clear is the message? (1-5)",
+      "What parts are confusing or too abstract?",
+      "How strong does the message feel? (1-5)",
+      "How emotional or urgent does it feel? (1-5)",
+      "Which part stands out most to you?",
+      "How do you perceive the tone? (1-5)",
+      "How risky or controversial does this feel? (1-5)",
+      "What concerns, misunderstandings, or red flags do you see?",
+      "Would you share this with someone else? (1-5)",
+      "Would you sign up for updates? (1-5)",
+      "What would be the next step you would actually take?",
+      "Any other comments or suggestions?",
+      "Would you be open to a follow-up discussion?",
+      "If yes, what is the best way to follow up?"
+    ];
+
+    const groupQuestions = {
+      "Students and pupils": [
+        "Does this feel relevant to your age group?",
+        "Which format would work best for you: post, video, poster, playlist, or live talk?",
+        "What would make this feel more credible or interesting?"
+      ],
+      "Workers, blue collar": [
+        "Does this feel connected to real working life?",
+        "Which topics matter most to you here?",
+        "What would make this more practical and direct?"
+      ],
+      "Workers, white collar": [
+        "Does this feel clear and strategic?",
+        "What tone would work better in your environment?",
+        "What would make it feel more trustworthy or precise?"
+      ],
+      "NGOs and organisations": [
+        "Would you consider this usable in organised campaign work?",
+        "Where do you see legal, reputational, or funding concerns?",
+        "Which format would be most useful for your work?"
+      ],
+      "Influencers": [
+        "Would this fit your content style and audience?",
+        "What would you keep or change?",
+        "Would your audience see this as authentic?"
+      ],
+      "Musicians and DJs": [
+        "Would this work in a set, mix, flyer, or playlist context?",
+        "Which lines feel strongest for performance?",
+        "What would make it more usable in your scene?"
+      ]
+    };
+
+    const groupSelect = document.getElementById("groupSelect");
+    const setTitle = document.getElementById("setTitle");
+    const questionList = document.getElementById("questionList");
+    const copyBtn = document.getElementById("copyBtn");
+
+    function renderQuestions(selectedGroup) {
+      setTitle.textContent = "Question set: " + selectedGroup;
+      questionList.innerHTML = "";
+
+      coreQuestions.forEach((question, index) => {
+        const item = document.createElement("li");
+        item.className = "question-item";
+        item.innerHTML = "<strong>Core " + (index + 1) + "</strong>" + question;
+        questionList.appendChild(item);
+      });
+
+      groupQuestions[selectedGroup].forEach((question, index) => {
+        const item = document.createElement("li");
+        item.className = "question-item";
+        item.innerHTML = "<strong>Group " + (index + 1) + "</strong>" + question;
+        questionList.appendChild(item);
+      });
+    }
+
+    groupSelect.addEventListener("change", (event) => {
+      renderQuestions(event.target.value);
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      const selectedGroup = groupSelect.value;
+      const lines = [
+        "Testgroup: " + selectedGroup,
+        "",
+        "Core questions:"
+      ];
+
+      coreQuestions.forEach((question, index) => {
+        lines.push((index + 1) + ". " + question);
+      });
+
+      lines.push("", "Group-specific questions:");
+
+      groupQuestions[selectedGroup].forEach((question, index) => {
+        lines.push((index + 1) + ". " + question);
+      });
+
+      try {
+        await navigator.clipboard.writeText(lines.join("\n"));
+        copyBtn.textContent = "Copied";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy Questions";
+        }, 1200);
+      } catch {
+        copyBtn.textContent = "Copy failed";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy Questions";
+        }, 1200);
+      }
+    });
+
+    renderQuestions(groupSelect.value);
+  </script>
+</body>
+</html>
