@@ -208,6 +208,25 @@
       margin-bottom: 0.3rem;
     }
 
+    .answer-wrap { margin-top: 0.65rem; }
+
+    .answer-control,
+    .answer-area {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.7rem 0.75rem;
+      background: #141414;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-family: var(--font-ui);
+      font-size: 0.93rem;
+    }
+
+    .answer-area {
+      min-height: 92px;
+      resize: vertical;
+    }
+
     footer {
       width: min(calc(100% - 2rem), var(--max));
       margin: 2rem auto 0;
@@ -273,54 +292,56 @@
   </footer>
 
   <script>
+    const scaleOptions = ["1", "2", "3", "4", "5"];
+
     const coreQuestions = [
-      "What do you think People Before Power is about?",
-      "How clear is the message? (1-5)",
-      "What parts are confusing or too abstract?",
-      "How strong does the message feel? (1-5)",
-      "How emotional or urgent does it feel? (1-5)",
-      "Which part stands out most to you?",
-      "How do you perceive the tone? (1-5)",
-      "How risky or controversial does this feel? (1-5)",
-      "What concerns, misunderstandings, or red flags do you see?",
-      "Would you share this with someone else? (1-5)",
-      "Would you sign up for updates? (1-5)",
-      "What would be the next step you would actually take?",
-      "Any other comments or suggestions?",
-      "Would you be open to a follow-up discussion?",
-      "If yes, what is the best way to follow up?"
+      { label: "What do you think People Before Power is about?", type: "text" },
+      { label: "How clear is the message?", type: "scale" },
+      { label: "What parts are confusing or too abstract?", type: "text" },
+      { label: "How strong does the message feel?", type: "scale" },
+      { label: "How emotional or urgent does it feel?", type: "scale" },
+      { label: "Which part stands out most to you?", type: "text" },
+      { label: "How do you perceive the tone?", type: "scale" },
+      { label: "How risky or controversial does this feel?", type: "scale" },
+      { label: "What concerns, misunderstandings, or red flags do you see?", type: "text" },
+      { label: "Would you share this with someone else?", type: "scale" },
+      { label: "Would you sign up for updates?", type: "scale" },
+      { label: "What would be the next step you would actually take?", type: "text" },
+      { label: "Any other comments or suggestions?", type: "text" },
+      { label: "Would you be open to a follow-up discussion?", type: "choice", options: ["Yes", "No"] },
+      { label: "If yes, what is the best way to follow up?", type: "text" }
     ];
 
     const groupQuestions = {
       "Students and pupils": [
-        "Does this feel relevant to your age group?",
-        "Which format would work best for you: post, video, poster, playlist, or live talk?",
-        "What would make this feel more credible or interesting?"
+        { label: "Does this feel relevant to your age group?", type: "scale" },
+        { label: "Which format would work best for you: post, video, poster, playlist, or live talk?", type: "choice", options: ["post", "video", "poster", "playlist", "live talk"] },
+        { label: "What would make this feel more credible or interesting?", type: "text" }
       ],
       "Workers, blue collar": [
-        "Does this feel connected to real working life?",
-        "Which topics matter most to you here?",
-        "What would make this more practical and direct?"
+        { label: "Does this feel connected to real working life?", type: "scale" },
+        { label: "Which topics matter most to you here?", type: "text" },
+        { label: "What would make this more practical and direct?", type: "text" }
       ],
       "Workers, white collar": [
-        "Does this feel clear and strategic?",
-        "What tone would work better in your environment?",
-        "What would make it feel more trustworthy or precise?"
+        { label: "Does this feel clear and strategic?", type: "scale" },
+        { label: "What tone would work better in your environment?", type: "text" },
+        { label: "What would make it feel more trustworthy or precise?", type: "text" }
       ],
       "NGOs and organisations": [
-        "Would you consider this usable in organised campaign work?",
-        "Where do you see legal, reputational, or funding concerns?",
-        "Which format would be most useful for your work?"
+        { label: "Would you consider this usable in organised campaign work?", type: "scale" },
+        { label: "Where do you see legal, reputational, or funding concerns?", type: "text" },
+        { label: "Which format would be most useful for your work?", type: "text" }
       ],
       "Influencers": [
-        "Would this fit your content style and audience?",
-        "What would you keep or change?",
-        "Would your audience see this as authentic?"
+        { label: "Would this fit your content style and audience?", type: "scale" },
+        { label: "What would you keep or change?", type: "text" },
+        { label: "Would your audience see this as authentic?", type: "scale" }
       ],
       "Musicians and DJs": [
-        "Would this work in a set, mix, flyer, or playlist context?",
-        "Which lines feel strongest for performance?",
-        "What would make it more usable in your scene?"
+        { label: "Would this work in a set, mix, flyer, or playlist context?", type: "scale" },
+        { label: "Which lines feel strongest for performance?", type: "text" },
+        { label: "What would make it more usable in your scene?", type: "text" }
       ]
     };
 
@@ -329,23 +350,69 @@
     const questionList = document.getElementById("questionList");
     const copyBtn = document.getElementById("copyBtn");
 
+    function buildControl(question, fieldId) {
+      if (question.type === "scale") {
+        const select = document.createElement("select");
+        select.className = "answer-control";
+        select.id = fieldId;
+        const empty = document.createElement("option");
+        empty.value = "";
+        empty.textContent = "Select 1-5";
+        select.appendChild(empty);
+        scaleOptions.forEach((value) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = value;
+          select.appendChild(option);
+        });
+        return select;
+      }
+
+      if (question.type === "choice") {
+        const select = document.createElement("select");
+        select.className = "answer-control";
+        select.id = fieldId;
+        const empty = document.createElement("option");
+        empty.value = "";
+        empty.textContent = "Select";
+        select.appendChild(empty);
+        question.options.forEach((entry) => {
+          const option = document.createElement("option");
+          option.value = entry;
+          option.textContent = entry;
+          select.appendChild(option);
+        });
+        return select;
+      }
+
+      const textarea = document.createElement("textarea");
+      textarea.className = "answer-area";
+      textarea.id = fieldId;
+      textarea.placeholder = "Type your answer...";
+      return textarea;
+    }
+
+    function appendQuestion(question, index, blockLabel) {
+      const item = document.createElement("li");
+      item.className = "question-item";
+      const title = document.createElement("strong");
+      title.textContent = blockLabel + " " + index;
+      const text = document.createElement("p");
+      text.textContent = question.label;
+      const answerWrap = document.createElement("div");
+      answerWrap.className = "answer-wrap";
+      answerWrap.appendChild(buildControl(question, blockLabel.toLowerCase() + "-" + index));
+      item.appendChild(title);
+      item.appendChild(text);
+      item.appendChild(answerWrap);
+      questionList.appendChild(item);
+    }
+
     function renderQuestions(selectedGroup) {
       setTitle.textContent = "Question set: " + selectedGroup;
       questionList.innerHTML = "";
-
-      coreQuestions.forEach((question, index) => {
-        const item = document.createElement("li");
-        item.className = "question-item";
-        item.innerHTML = "<strong>Core " + (index + 1) + "</strong>" + question;
-        questionList.appendChild(item);
-      });
-
-      groupQuestions[selectedGroup].forEach((question, index) => {
-        const item = document.createElement("li");
-        item.className = "question-item";
-        item.innerHTML = "<strong>Group " + (index + 1) + "</strong>" + question;
-        questionList.appendChild(item);
-      });
+      coreQuestions.forEach((question, index) => appendQuestion(question, index + 1, "Core"));
+      groupQuestions[selectedGroup].forEach((question, index) => appendQuestion(question, index + 1, "Group"));
     }
 
     groupSelect.addEventListener("change", (event) => {
@@ -361,13 +428,13 @@
       ];
 
       coreQuestions.forEach((question, index) => {
-        lines.push((index + 1) + ". " + question);
+        lines.push((index + 1) + ". " + question.label);
       });
 
       lines.push("", "Group-specific questions:");
 
       groupQuestions[selectedGroup].forEach((question, index) => {
-        lines.push((index + 1) + ". " + question);
+        lines.push((index + 1) + ". " + question.label);
       });
 
       try {
